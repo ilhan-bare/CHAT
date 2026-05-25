@@ -68,7 +68,7 @@ public class MainApp {
         // =========================
         // WELCOME MESSAGE
         // =========================
-        System.out.println("\nWelcome to  Chat App.");
+        System.out.println("\nWelcome to  QuickChat.");
 
         // =========================
         // HOW MANY MESSAGES
