@@ -1,11 +1,7 @@
 package com.mycompany.chatapp1;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 import java.util.Random;
+import java.util.Scanner;
 
 public class Message {
 
@@ -16,7 +12,6 @@ public class Message {
 
     // Constructor
     public Message(int messageNumber) {
-
         this.messageNumber = messageNumber;
         generateMessageID();
     }
@@ -54,12 +49,8 @@ public class Message {
     // =========================
 
     private void generateMessageID() {
-
         Random random = new Random();
-
-        long number = 1000000000L
-                + (long)(random.nextDouble() * 9000000000L);
-
+        long number = 1000000000L + (long)(random.nextDouble() * 9000000000L);
         messageID = String.valueOf(number).substring(0, 10);
     }
 
@@ -68,7 +59,6 @@ public class Message {
     // =========================
 
     public boolean checkMessageID() {
-
         return messageID != null && messageID.length() <= 10;
     }
 
@@ -77,15 +67,10 @@ public class Message {
     // =========================
 
     public String checkMessageLength(String text) {
-
         if (text.length() <= 250) {
-
             return "Message ready to send.";
-
         } else {
-
             int excess = text.length() - 250;
-
             return "Message exceeds 250 characters by "
                     + excess
                     + ", please reduce size.";
@@ -97,13 +82,9 @@ public class Message {
     // =========================
 
     public String checkRecipientCell(String cell) {
-
         if (cell.matches("^\\+27\\d{9}$")) {
-
             return "Cell phone number successfully captured.";
-
         } else {
-
             return "Cell phone number is incorrectly formatted or does not contain international code.";
         }
     }
@@ -113,17 +94,9 @@ public class Message {
     // =========================
 
     public String createMessageHash() {
-
         String[] words = messageText.toUpperCase().split(" ");
-
-        String firstWord = words[0]
-                .replace(",", "")
-                .replace("?", "");
-
-        String lastWord = words[words.length - 1]
-                .replace(",", "")
-                .replace("?", "");
-
+        String firstWord = words[0].replace(",", "").replace("?", "");
+        String lastWord = words[words.length - 1].replace(",", "").replace("?", "");
         return messageID.substring(0, 2)
                 + ":"
                 + messageNumber
@@ -137,7 +110,22 @@ public class Message {
     // =========================
 
     public String sentMessage() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("1) Send");
+        System.out.println("2) Disregard");
+        System.out.println("3) Store");
+        System.out.print("Choose an option: ");
+        String choice = input.nextLine().trim();
 
-        return "Message successfully sent.";
+        switch (choice) {
+            case "1":
+                return "Message successfully sent.";
+            case "2":
+                return "Press 0 to delete the message.";
+            case "3":
+                return "Message successfully stored.";
+            default:
+                return "Invalid option.";
+        }
     }
 }

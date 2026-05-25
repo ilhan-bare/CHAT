@@ -9,22 +9,39 @@ public class MainApp {
         Scanner input = new Scanner(System.in);
         Login login = new Login();
 
-        // ========================= 
+        // =========================
         // USER REGISTRATION
         // =========================
         System.out.println("\n=== USER REGISTRATION ===");
+
+        System.out.print("Enter your first name: ");
+        String firstName = input.nextLine();
+
+        System.out.print("Enter your last name: ");
+        String lastName = input.nextLine();
+
         while (true) {
-            System.out.print("Enter a username: ");
+            System.out.print("Enter a username (must contain _ and be 5 chars or less): ");
             String username = input.nextLine();
-            System.out.print("Enter a password: ");
+
+            if (login.checkUsername(username)) {
+                System.out.println("Username successfully captured.");
+            } else {
+                System.out.println("Username not correct. Please try again.");
+                continue;
+            }
+
+            System.out.print("Enter a password (min 8 chars, 1 capital, 1 number, 1 special): ");
             String password = input.nextLine();
-            System.out.print("Enter phone (+27...): ");
+
+            System.out.print("Enter phone number (+27...): ");
             String phone = input.nextLine();
 
             String response = login.registerUser(username, password, phone);
             System.out.println(response);
 
             if (response.equals("User registered successfully.")) {
+                System.out.println("Welcome " + firstName + " " + lastName + ", your account has been created.");
                 break;
             }
             System.out.println("Please try again.\n");
@@ -42,7 +59,6 @@ public class MainApp {
         boolean loggedIn = login.loginUser(loginUsername, loginPassword);
         System.out.println(login.returnLoginStatus(loggedIn));
 
-        // Gate: only continue if login succeeded
         if (!loggedIn) {
             System.out.println("Access denied. Exiting application.");
             input.close();
@@ -50,12 +66,12 @@ public class MainApp {
         }
 
         // =========================
-        // WELCOME MESSAGE (Req 2)
+        // WELCOME MESSAGE
         // =========================
-        System.out.println("\nWelcome to QuickChat.");
+        System.out.println("\nWelcome to  Chat App.");
 
         // =========================
-        // HOW MANY MESSAGES (Req 5)
+        // HOW MANY MESSAGES
         // =========================
         int maxMessages = 0;
         while (true) {
@@ -74,7 +90,7 @@ public class MainApp {
         int messageCounter = 1;
 
         // =========================
-        // MAIN MENU LOOP (Req 3 & 4)
+        // MAIN MENU LOOP
         // =========================
         while (true) {
             System.out.println("\n--- MENU ---");
@@ -85,10 +101,8 @@ public class MainApp {
             String choice = input.nextLine().trim();
 
             switch (choice) {
+
                 case "1":
-                    // =========================
-                    // SEND MESSAGES (Req 1 & 5)
-                    // =========================
                     if (messageCounter > maxMessages) {
                         System.out.println("You have reached your message limit of " + maxMessages + ".");
                         break;
@@ -107,9 +121,10 @@ public class MainApp {
                     }
                     msg.setRecipient(recipient);
 
-                    // Message text
+                    // Message text — remind user of the 250 char limit
                     String messageText;
                     while (true) {
+                        System.out.println("Please keep your message under 250 characters.");
                         System.out.print("Enter your message: ");
                         messageText = input.nextLine();
                         String lengthCheck = msg.checkMessageLength(messageText);
@@ -118,7 +133,7 @@ public class MainApp {
                     }
                     msg.setMessageText(messageText);
 
-                    // Confirm and send
+                    // Show ID and hash
                     System.out.println("Message ID: " + msg.getMessageID());
                     System.out.println("Message Hash: " + msg.createMessageHash());
                     System.out.println(msg.sentMessage());
@@ -128,16 +143,18 @@ public class MainApp {
                     break;
 
                 case "2":
-                    // =========================
-                    // COMING SOON (Req 3b)
-                    // =========================
-                    System.out.println("Coming Soon.");
+                    if (sentMessages.isEmpty()) {
+                        System.out.println("No messages sent yet.");
+                    } else {
+                        System.out.println("\n--- SENT MESSAGES ---");
+                        for (Message m : sentMessages) {
+                            System.out.println("To: " + m.getRecipient()
+                                    + " | Message: " + m.getMessageText());
+                        }
+                    }
                     break;
 
                 case "3":
-                    // =========================
-                    // QUIT (Req 3c & 4)
-                    // =========================
                     System.out.println("Goodbye!");
                     input.close();
                     return;
