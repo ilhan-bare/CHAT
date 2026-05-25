@@ -92,7 +92,7 @@ public class Login {
     }
 
     /**
-     * Checks if the provided username and password match the registered credentials.
+     * looks out if the provided username and password match the registered credentials.
      * Returns true if both match, false otherwise.
      */
     public boolean loginUser(String username, String password) {
