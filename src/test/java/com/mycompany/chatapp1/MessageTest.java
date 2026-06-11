@@ -1,14 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/UnitTests/JUnit4TestClass.java to edit this template
- */
-
 package com.mycompany.chatapp1;
 
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+/**
+ * MessageTest contains all unit tests for the Message class.
+ * Part 2 tests remain unchanged below.
+ * Part 3 tests are added at the bottom and cover arrays, longest message,
+ * search by ID, search by recipient, delete by hash, and the message report.
+ *
+ * @author Student
+ */
 public class MessageTest {
 
     // Two Message instances used across the test methods
@@ -26,10 +29,8 @@ public class MessageTest {
      */
     private class TestableMessage extends Message {
 
-        // Stores which menu option to simulate (1 = send, 2 = disregard, 3 = store)
         private int option;
 
-        // Constructor takes message number and the option to simulate
         public TestableMessage(int messageNumber, int option) {
             super(messageNumber);
             this.option = option;
@@ -37,27 +38,30 @@ public class MessageTest {
 
         /**
          * Overrides sentMessage() to return a predictable result
-         * based on the selected option — used for isolated unit testing.
+         * and also populates the static arrays so Part 3 tests work correctly.
+         *
+         * @return the outcome string matching the chosen option
          */
         @Override
         public String sentMessage() {
-
+            String hash = createMessageHash();
             switch (option) {
-
                 case 1:
-                    // Simulates the user choosing to send the message
+                    // Simulate Send: populate sentMessages, hashes, IDs, and recipients
+                    Message.getSentMessages().add(getMessageText());
+                    Message.getMessageHashes().add(hash);
+                    Message.getMessageIDs().add(getMessageID());
+                    Message.getRecipientList().add(getRecipient());
                     return "Message successfully sent.";
-
                 case 2:
-                    // Simulates the user choosing to disregard the message
                     return "Press 0 to delete the message.";
-
                 case 3:
-                    // Simulates the user choosing to store the message
+                    // Simulate Store: populate hashes, IDs, and recipients (not sentMessages)
+                    Message.getMessageHashes().add(hash);
+                    Message.getMessageIDs().add(getMessageID());
+                    Message.getRecipientList().add(getRecipient());
                     return "Message successfully stored.";
-
                 default:
-                    // Fallback for any unexpected option value
                     return "Invalid option.";
             }
         }
@@ -68,292 +72,294 @@ public class MessageTest {
     // =====================================
 
     /**
-     * Runs before each test to initialise fresh Message objects.
-     * message1 has a valid recipient; message2 has an invalid recipient
-     * (no international code) — used to test both passing and failing scenarios.
+     * Runs before each test to reset static arrays and initialize fresh Message objects.
+     * Clearing the arrays ensures tests do not interfere with each other.
      */
     @Before
     public void setUp() {
+        // Clear all static arrays before each test to prevent state leaking between tests
+        Message.clearAllArrays();
 
         // Message 1 — valid recipient with +27 international code
         message1 = new Message(1);
         message1.setRecipient("+27718693002");
-        message1.setMessageText(
-                "Hi Mike, can you join us for dinner tonight?"
-        );
+        message1.setMessageText("Hi Mike, can you join us for dinner tonight?");
 
         // Message 2 — invalid recipient missing the +27 international code
         message2 = new Message(2);
         message2.setRecipient("08575975889");
-        message2.setMessageText(
-                "Hi Keegan, did you receive the payment?"
-        );
+        message2.setMessageText("Hi Keegan, did you receive the payment?");
     }
 
     // =====================================
-    // MESSAGE LENGTH TESTS
+    // MESSAGE LENGTH TESTS (Part 2 - unchanged)
     // =====================================
 
-    /**
-     * Tests that a short, valid message returns the success response.
-     * "Hello" is well under the 250-character limit.
-     */
     @Test
     public void testCheckMessageLength_validMessage_returnsSuccess() {
-
         String text = "Hello";
-
         String result = message1.checkMessageLength(text);
-
-        assertEquals(
-                "Message ready to send.",
-                result
-        );
+        assertEquals("Message ready to send.", result);
     }
 
-    /**
-     * Tests that a message 10 characters over the limit (260 chars)
-     * returns a failure message stating the exact overage amount.
-     */
     @Test
     public void testCheckMessageLength_over250chars_returnsFailureWithCount() {
-
-        // 260 'A' characters — 10 over the 250-character limit
         String text = "A".repeat(260);
-
         String result = message1.checkMessageLength(text);
-
-        assertEquals(
-                "Message exceeds 250 characters by 10, please reduce size.",
-                result
-        );
+        assertEquals("Message exceeds 250 characters by 10, please reduce size.", result);
     }
 
-    /**
-     * Tests the boundary condition where the message is exactly 250 characters.
-     * Should be accepted as valid (inclusive limit).
-     */
     @Test
     public void testCheckMessageLength_exactlyAtLimit_returnsSuccess() {
-
-        // Exactly 250 characters — right at the boundary
         String text = "A".repeat(250);
-
         String result = message1.checkMessageLength(text);
-
-        assertEquals(
-                "Message ready to send.",
-                result
-        );
+        assertEquals("Message ready to send.", result);
     }
 
-    /**
-     * Tests the boundary condition where the message is exactly 1 character over the limit.
-     * Should return a failure message indicating an overage of 1.
-     */
     @Test
     public void testCheckMessageLength_oneOver_returnsFailureWithCountOf1() {
-
-        // 251 characters — just one over the limit
         String text = "A".repeat(251);
-
         String result = message1.checkMessageLength(text);
-
-        assertEquals(
-                "Message exceeds 250 characters by 1, please reduce size.",
-                result
-        );
+        assertEquals("Message exceeds 250 characters by 1, please reduce size.", result);
     }
 
     // =====================================
-    // RECIPIENT CELL TESTS
+    // RECIPIENT CELL TESTS (Part 2 - unchanged)
     // =====================================
 
-    /**
-     * Tests that a correctly formatted cell number (+27...) is accepted.
-     * Uses message1's recipient which was set with a valid +27 number.
-     */
     @Test
     public void testCheckRecipientCell_validNumber_returnsSuccess() {
-
-        String result = message1.checkRecipientCell(
-                message1.getRecipient()
-        );
-
-        assertEquals(
-                "Cell phone number successfully captured.",
-                result
-        );
+        String result = message1.checkRecipientCell(message1.getRecipient());
+        assertEquals("Cell phone number successfully captured.", result);
     }
 
-    /**
-     * Tests that a cell number without an international code is rejected.
-     * Uses message2's recipient which starts with 0 instead of +27.
-     */
     @Test
     public void testCheckRecipientCell_invalidNumber_returnsFailure() {
-
-        String result = message2.checkRecipientCell(
-                message2.getRecipient()
-        );
-
-        assertEquals(
-                "Cell phone number is incorrectly formatted or does not contain international code.",
-                result
-        );
+        String result = message2.checkRecipientCell(message2.getRecipient());
+        assertEquals("Cell phone number is incorrectly formatted or does not contain international code.", result);
     }
 
     // =====================================
-    // MESSAGE HASH TESTS
+    // MESSAGE HASH TESTS (Part 2 - unchanged)
     // =====================================
 
-    /**
-     * Tests that the generated hash ends with the correct format:
-     * messageID : messageNumber : first and last words of message (uppercase).
-     * For message1: "Hi Mike...tonight?" → first word "HI", last word "TONIGHT".
-     */
     @Test
     public void testCreateMessageHash_correctFormat_endsWithExpectedWords() {
-
         String hash = message1.createMessageHash();
-
-        // Hash should end with ":1:HITONIGHT" — message number 1, first + last words
-        assertTrue(
-                hash.endsWith(":1:HITONIGHT")
-        );
+        assertTrue(hash.endsWith(":1:HITONIGHT"));
     }
 
-    /**
-     * Tests that the entire hash string is in uppercase.
-     * Compares the hash to its own toUpperCase() version — must be identical.
-     */
     @Test
     public void testCreateMessageHash_isUppercase() {
-
         String hash = message1.createMessageHash();
-
-        // If hash is already uppercase, it equals its own uppercase conversion
-        assertEquals(
-                hash.toUpperCase(),
-                hash
-        );
+        assertEquals(hash.toUpperCase(), hash);
     }
 
-    /**
-     * Tests hash generation across multiple messages using a loop.
-     * Verifies that each message produces a hash containing its expected word pair.
-     * message1 → "HITONIGHT", message2 → "HIPAYMENT"
-     */
     @Test
     public void testCreateMessageHash_multipleMessages_loopTest() {
-
         Message[] messages = {message1, message2};
-
-        // Expected concatenation of first and last words for each message
-        String[] expectedWords = {
-            "HITONIGHT",  // message1: "Hi Mike...tonight?"
-            "HIPAYMENT"   // message2: "Hi Keegan...payment?"
-        };
-
-        // Loop through each message and confirm the hash contains the expected words
+        String[] expectedWords = {"HITONIGHT", "HIPAYMENT"};
         for (int i = 0; i < messages.length; i++) {
-
             String hash = messages[i].createMessageHash();
-
-            assertTrue(
-                    hash.contains(expectedWords[i])
-            );
+            assertTrue(hash.contains(expectedWords[i]));
         }
     }
 
     // =====================================
-    // MESSAGE ID TESTS
+    // MESSAGE ID TESTS (Part 2 - unchanged)
     // =====================================
 
-    /**
-     * Tests that the generated message ID is not null.
-     * Ensures the ID was actually created during Message construction.
-     */
     @Test
     public void testCheckMessageID_generatedID_isNotNull() {
-
-        assertNotNull(
-                "Message ID should not be null",
-                message1.getMessageID()
-        );
+        assertNotNull("Message ID should not be null", message1.getMessageID());
     }
 
-    /**
-     * Tests that the generated message ID is exactly 10 characters long.
-     * Relies on the checkMessageID() method in the Message class to verify this.
-     */
     @Test
     public void testCheckMessageID_generatedID_isExactly10Chars() {
-
-        // checkMessageID() should return true only if the ID is exactly 10 chars
-        assertTrue(
-                message1.checkMessageID()
-        );
+        assertTrue(message1.checkMessageID());
     }
 
     // =====================================
-    // SENT MESSAGE TESTS
+    // SENT MESSAGE TESTS (Part 2 - unchanged)
     // =====================================
 
-    /**
-     * Tests that selecting option 1 (send) returns the correct confirmation string.
-     * Uses TestableMessage to simulate the user choosing to send.
-     */
     @Test
     public void testSentMessage_userSelectsSend_returnsCorrectString() {
-
-        // Option 1 simulates the user choosing to send the message
-        TestableMessage msg =
-                new TestableMessage(1, 1);
-
+        TestableMessage msg = new TestableMessage(1, 1);
+        msg.setRecipient("+27834557896");
+        msg.setMessageText("Did you get the cake?");
         String result = msg.sentMessage();
-
-        assertEquals(
-                "Message successfully sent.",
-                result
-        );
+        assertEquals("Message successfully sent.", result);
     }
 
-    /**
-     * Tests that selecting option 2 (disregard) returns the correct prompt string.
-     * Uses TestableMessage to simulate the user choosing to disregard.
-     */
     @Test
     public void testSentMessage_userSelectsDisregard_returnsCorrectString() {
-
-        // Option 2 simulates the user choosing to disregard the message
-        TestableMessage msg =
-                new TestableMessage(1, 2);
-
+        TestableMessage msg = new TestableMessage(1, 2);
+        msg.setRecipient("+27718693002");
+        msg.setMessageText("Test message.");
         String result = msg.sentMessage();
+        assertEquals("Press 0 to delete the message.", result);
+    }
+
+    @Test
+    public void testSentMessage_userSelectsStore_returnsCorrectString() {
+        TestableMessage msg = new TestableMessage(1, 3);
+        msg.setRecipient("+27718693002");
+        msg.setMessageText("Test message.");
+        String result = msg.sentMessage();
+        assertEquals("Message successfully stored.", result);
+    }
+
+    // =====================================
+    // PART 3 TESTS - NEW
+    // =====================================
+
+    /**
+     * Test 1: Verifies that the sentMessages array is correctly populated
+     * when messages 1 and 4 from the POE test data are flagged as Sent.
+     * POE messages: "Did you get the cake?" to +27834557896
+     *               "It is dinner time!" to 0838884567
+     */
+    @Test
+    public void testSentMessagesArray_correctlyPopulated() {
+        // Message 1 — Send
+        TestableMessage msg1 = new TestableMessage(1, 1);
+        msg1.setRecipient("+27834557896");
+        msg1.setMessageText("Did you get the cake?");
+        msg1.sentMessage();
+
+        // Message 4 — Send (developer number, no international code)
+        TestableMessage msg4 = new TestableMessage(4, 1);
+        msg4.setRecipient("0838884567");
+        msg4.setMessageText("It is dinner time!");
+        msg4.sentMessage();
+
+        // Both message texts must be present in the sentMessages array
+        assertTrue(Message.getSentMessages().contains("Did you get the cake?"));
+        assertTrue(Message.getSentMessages().contains("It is dinner time!"));
+    }
+
+    /**
+     * Test 2: Verifies that displayLongestMessage() returns the correct message
+     * from the storedMessages array using the POE test data.
+     * Expected: "Where are you? You are late! I have asked you to be on time."
+     */
+    @Test
+    public void testDisplayLongestMessage_returnsCorrectMessage() {
+        // Populate storedMessages directly using the POE test data
+        Message.getStoredMessages().add("Hi, I am fine.");
+        Message.getStoredMessages().add("Where are you? You are late! I have asked you to be on time.");
+        Message.getStoredMessages().add("Ok, I am leaving without you.");
+
+        Message helper = new Message(0);
+        String result = helper.displayLongestMessage();
 
         assertEquals(
-                "Press 0 to delete the message.",
-                result
+            "Where are you? You are late! I have asked you to be on time.",
+            result
         );
     }
 
     /**
-     * Tests that selecting option 3 (store) returns the correct confirmation string.
-     * Uses TestableMessage to simulate the user choosing to store.
+     * Test 3: Verifies that searchByMessageID() returns the correct message
+     * when searching for message 4's ID from the POE test data.
+     * Expected: "It is dinner time!"
      */
     @Test
-    public void testSentMessage_userSelectsStore_returnsCorrectString() {
+    public void testSearchByMessageID_returnsCorrectMessage() {
+        // Simulate message 4 being sent — captures its auto-generated ID
+        TestableMessage msg4 = new TestableMessage(4, 1);
+        msg4.setRecipient("0838884567");
+        msg4.setMessageText("It is dinner time!");
+        msg4.sentMessage();
 
-        // Option 3 simulates the user choosing to store the message
-        TestableMessage msg =
-                new TestableMessage(1, 3);
+        // Retrieve the actual generated ID so we can search for it
+        String generatedID = msg4.getMessageID();
 
-        String result = msg.sentMessage();
+        Message helper = new Message(0);
+        String result = helper.searchByMessageID(generatedID);
+
+        assertEquals("It is dinner time!", result);
+    }
+
+    /**
+     * Test 4: Verifies that searchByRecipient() returns all messages
+     * sent to +27838884567 (messages 2 and 5 from POE test data).
+     * Expected: both message texts appear in the result.
+     */
+    @Test
+    public void testSearchByRecipient_returnsAllMatchingMessages() {
+        // Message 2 — sent to +27838884567
+        TestableMessage msg2 = new TestableMessage(2, 1);
+        msg2.setRecipient("+27838884567");
+        msg2.setMessageText("Where are you? You are late! I have asked you to be on time.");
+        msg2.sentMessage();
+
+        // Message 5 — also sent to +27838884567
+        TestableMessage msg5 = new TestableMessage(5, 1);
+        msg5.setRecipient("+27838884567");
+        msg5.setMessageText("Ok, I am leaving without you.");
+        msg5.sentMessage();
+
+        Message helper = new Message(0);
+        String result = helper.searchByRecipient("+27838884567");
+
+        // Both messages must appear in the result
+        assertTrue(result.contains("Where are you? You are late! I have asked you to be on time."));
+        assertTrue(result.contains("Ok, I am leaving without you."));
+    }
+
+    /**
+     * Test 5: Verifies that deleteByHash() removes message 2 from the arrays
+     * and returns the correct success message.
+     * Expected: "Message: Where are you? You are late! I have asked you to be on time. successfully deleted."
+     */
+    @Test
+    public void testDeleteByHash_removesCorrectMessage() {
+        // Send message 2 so it populates the arrays and generates a hash
+        TestableMessage msg2 = new TestableMessage(2, 1);
+        msg2.setRecipient("+27838884567");
+        msg2.setMessageText("Where are you? You are late! I have asked you to be on time.");
+        msg2.sentMessage();
+
+        // Retrieve the actual hash that was generated and stored
+        String generatedHash = Message.getMessageHashes().get(0);
+
+        Message helper = new Message(0);
+        String result = helper.deleteByHash(generatedHash);
 
         assertEquals(
-                "Message successfully stored.",
-                result
+            "Message: Where are you? You are late! I have asked you to be on time. successfully deleted.",
+            result
         );
+    }
+
+    /**
+     * Test 6: Verifies that printMessages() produces a report containing
+     * the hash, recipient, and message text for all sent messages.
+     */
+    @Test
+    public void testDisplayReport_containsRequiredFields() {
+        // Send two messages to populate the arrays
+        TestableMessage msg1 = new TestableMessage(1, 1);
+        msg1.setRecipient("+27834557896");
+        msg1.setMessageText("Did you get the cake?");
+        msg1.sentMessage();
+
+        TestableMessage msg2 = new TestableMessage(2, 1);
+        msg2.setRecipient("+27838884567");
+        msg2.setMessageText("Where are you? You are late! I have asked you to be on time.");
+        msg2.sentMessage();
+
+        String report = Message.printMessages();
+
+        // Report must contain the hash, recipient, and message for each entry
+        assertTrue(report.contains(Message.getMessageHashes().get(0)));
+        assertTrue(report.contains("+27834557896"));
+        assertTrue(report.contains("Did you get the cake?"));
+
+        assertTrue(report.contains(Message.getMessageHashes().get(1)));
+        assertTrue(report.contains("+27838884567"));
+        assertTrue(report.contains("Where are you? You are late! I have asked you to be on time."));
     }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.chatapp1.LoginTest" time="0.059" tests="1" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.chatapp1.LoginTest" time="0.081" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.cpu.isalist" value="amd64"/>
     <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\test-classes;C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\classes;C:\Users\Student\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Student\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="java.class.path" value="C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\test-classes;C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\classes;C:\Users\Student\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Student\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Student\.m2\repository\org\json\json\20231013\json-20231013.jar;"/>
     <property name="java.vm.vendor" value="Eclipse Adoptium"/>
     <property name="sun.arch.data.model" value="64"/>
     <property name="user.variant" value=""/>
@@ -15,10 +15,9 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin"/>
-    <property name="sun.java.command" value="C:\Users\Student\AppData\Local\Temp\surefire17032815150969448394\surefirebooter9271375384199677806.jar C:\Users\Student\AppData\Local\Temp\surefire17032815150969448394 2026-05-25T08-17-24_445-jvmRun1 surefire13656107522667069371tmp surefire_01732259829330457723tmp"/>
+    <property name="sun.java.command" value="C:\Users\Student\AppData\Local\Temp\surefire15110521492953344962\surefirebooter13850069407848222406.jar C:\Users\Student\AppData\Local\Temp\surefire15110521492953344962 2026-06-11T14-09-07_524-jvmRun1 surefire17705506546512651188tmp surefire_010987523940231230564tmp"/>
     <property name="jdk.debug" value="release"/>
-    <property name="test" value="com.mycompany.chatapp1.LoginTest#testInvalidPassword"/>
-    <property name="surefire.test.class.path" value="C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\test-classes;C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\classes;C:\Users\Student\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Student\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;"/>
+    <property name="surefire.test.class.path" value="C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\test-classes;C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\classes;C:\Users\Student\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Student\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Student\.m2\repository\org\json\json\20231013\json-20231013.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
     <property name="user.home" value="C:\Users\Student"/>
     <property name="user.language" value="en"/>
@@ -31,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Student\AppData\Local\Temp\surefire17032815150969448394\surefirebooter9271375384199677806.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Student\AppData\Local\Temp\surefire15110521492953344962\surefirebooter13850069407848222406.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="25.0.1+8-LTS"/>
@@ -62,5 +61,12 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testInvalidPassword" classname="com.mycompany.chatapp1.LoginTest" time="0.007"/>
+  <testcase name="testValidPassword" classname="com.mycompany.chatapp1.LoginTest" time="0.007"/>
+  <testcase name="testInvalidUsername" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
+  <testcase name="testLoginSuccess" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
+  <testcase name="testLoginFail" classname="com.mycompany.chatapp1.LoginTest" time="0.002"/>
+  <testcase name="testInvalidPassword" classname="com.mycompany.chatapp1.LoginTest" time="0.001"/>
+  <testcase name="testValidPhoneNumber" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
+  <testcase name="testInvalidPhoneNumber" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
+  <testcase name="testValidUsername" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
 </testsuite>

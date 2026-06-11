@@ -3,10 +3,16 @@ package com.mycompany.chatapp1;
 import java.util.Scanner;
 import java.util.ArrayList;
 
+/**
+ * MainApp is the entry point of the ChatApp application.
+ * It handles user registration, login, and the main menu loop.
+ * Part 3 adds menu option 4 (Stored Messages) and loads saved messages on startup.
+ *
+ * @author Student
+ */
 public class MainApp {
 
     public static void main(String[] args) {
-        // Initialize scanner for user input and Login object for auth operations
         Scanner input = new Scanner(System.in);
         Login login = new Login();
 
@@ -15,46 +21,47 @@ public class MainApp {
         // =========================
         System.out.println("\n=== USER REGISTRATION ===");
 
-        // Collect the user's first and last name (no validation required)
         System.out.print("Enter your first name: ");
         String firstName = input.nextLine();
 
         System.out.print("Enter your last name: ");
         String lastName = input.nextLine();
 
-        // Keep looping until a valid username, password, and phone number are provided
         while (true) {
-            // Username must contain an underscore and be 5 characters or fewer
             System.out.print("Enter a username (must contain _ and be 5 chars or less): ");
             String username = input.nextLine();
 
-            // Validate username format before proceeding to password
-            if (login.checkUsername(username)) {
-                System.out.println("Username successfully captured.");
-            } else {
+            if (!login.checkUsername(username)) {
                 System.out.println("Username not correct. Please try again.");
-                continue; // Restart loop if username is invalid
+                continue;
             }
+            System.out.println("Username successfully captured.");
 
-            // Password must be at least 8 chars, with 1 capital, 1 number, and 1 special character
             System.out.print("Enter a password (min 8 chars, 1 capital, 1 number, 1 special): ");
             String password = input.nextLine();
 
-            // Phone number must follow the +27 South African format
+            if (!login.checkPasswordComplexity(password)) {
+                System.out.println("Password not correct. Please try again.");
+                continue;
+            }
+            System.out.println("Password successfully captured.");
+
             System.out.print("Enter phone number (+27...): ");
             String phone = input.nextLine();
 
-            // Attempt to register the user with the provided credentials
+            if (!login.checkCellPhoneNumber(phone)) {
+                System.out.println("Phone not correct. Please try again.");
+                continue;
+            }
+            System.out.println("Cell phone number successfully added.");
+
             String response = login.registerUser(username, password, phone);
             System.out.println(response);
 
-            // If registration is successful, greet the user and exit the loop
             if (response.equals("User registered successfully.")) {
                 System.out.println("Welcome " + firstName + " " + lastName + ", your account has been created.");
                 break;
             }
-            // If registration failed, prompt the user to try again
-            System.out.println("Please try again.\n");
         }
 
         // =========================
@@ -62,17 +69,14 @@ public class MainApp {
         // =========================
         System.out.println("\n=== USER LOGIN ===");
 
-        // Prompt user to log in with their registered credentials
         System.out.print("Username: ");
         String loginUsername = input.nextLine();
         System.out.print("Password: ");
         String loginPassword = input.nextLine();
 
-        // Validate login credentials and display the result
         boolean loggedIn = login.loginUser(loginUsername, loginPassword);
         System.out.println(login.returnLoginStatus(loggedIn));
 
-        // If login fails, deny access and terminate the application
         if (!loggedIn) {
             System.out.println("Access denied. Exiting application.");
             input.close();
@@ -80,60 +84,58 @@ public class MainApp {
         }
 
         // =========================
+        // PART 3 - LOAD STORED MESSAGES FROM JSON
+        // Called right after login so the storedMessages array is ready before the menu appears
+        // =========================
+        Message.loadStoredMessages();
+
+        // =========================
         // WELCOME MESSAGE
         // =========================
-        System.out.println("\nWelcome to  QuickChat.");
+        System.out.println("\nWelcome to QuickChat.");
 
         // =========================
         // HOW MANY MESSAGES
         // =========================
         int maxMessages = 0;
 
-        // Keep prompting until the user enters a valid positive integer
         while (true) {
             System.out.print("How many messages would you like to send? ");
             String countInput = input.nextLine().trim();
             try {
                 maxMessages = Integer.parseInt(countInput);
-                if (maxMessages > 0) break; // Valid count entered, exit loop
+                if (maxMessages > 0) break;
                 System.out.println("Please enter a number greater than 0.");
             } catch (NumberFormatException e) {
-                // Handle non-numeric input gracefully
                 System.out.println("Invalid input. Please enter a whole number.");
             }
         }
 
-        // List to store all successfully sent Message objects
         ArrayList<Message> sentMessages = new ArrayList<>();
-
-        // Tracks the current message number (used for Message ID generation)
         int messageCounter = 1;
 
         // =========================
         // MAIN MENU LOOP
         // =========================
         while (true) {
-            // Display the main menu options to the user
             System.out.println("\n--- MENU ---");
             System.out.println("1) Send Messages");
             System.out.println("2) Show recently sent messages");
             System.out.println("3) Quit");
+            System.out.println("4) Stored Messages");
             System.out.print("Choose an option: ");
             String choice = input.nextLine().trim();
 
             switch (choice) {
 
                 case "1":
-                    // Prevent sending more messages than the user's set limit
                     if (messageCounter > maxMessages) {
                         System.out.println("You have reached your message limit of " + maxMessages + ".");
                         break;
                     }
 
-                    // Create a new Message object with the current message number
                     Message msg = new Message(messageCounter);
 
-                    // Validate the recipient's cell number before accepting it
                     String recipient;
                     while (true) {
                         System.out.print("Enter recipient cell number (+27...): ");
@@ -144,7 +146,6 @@ public class MainApp {
                     }
                     msg.setRecipient(recipient);
 
-                    // Validate message length — must be under 250 characters
                     String messageText;
                     while (true) {
                         System.out.println("Please keep your message under 250 characters.");
@@ -156,23 +157,19 @@ public class MainApp {
                     }
                     msg.setMessageText(messageText);
 
-                    // Display the generated message ID and hash for reference
                     System.out.println("Message ID: " + msg.getMessageID());
                     System.out.println("Message Hash: " + msg.createMessageHash());
                     System.out.println(msg.sentMessage());
 
-                    // Add the message to the sent list and increment the counter
                     sentMessages.add(msg);
                     messageCounter++;
                     break;
 
                 case "2":
-                    // Display all sent messages, or notify if none have been sent yet
                     if (sentMessages.isEmpty()) {
                         System.out.println("No messages sent yet.");
                     } else {
                         System.out.println("\n--- SENT MESSAGES ---");
-                        // Iterate through all sent messages and print recipient and content
                         for (Message m : sentMessages) {
                             System.out.println("To: " + m.getRecipient()
                                     + " | Message: " + m.getMessageText());
@@ -181,14 +178,101 @@ public class MainApp {
                     break;
 
                 case "3":
-                    // User chose to quit — close scanner and exit the application
                     System.out.println("Goodbye!");
                     input.close();
                     return;
 
+                case "4":
+                    // Launch the stored messages sub-menu
+                    storedMessagesMenu(input);
+                    break;
+
                 default:
-                    // Handle any input that isn't 1, 2, or 3
-                    System.out.println("Invalid option. Please choose 1, 2, or 3.");
+                    System.out.println("Invalid option. Please choose 1, 2, 3, or 4.");
+            }
+        }
+    }
+
+    // =========================
+    // PART 3 - STORED MESSAGES SUB-MENU
+    // =========================
+
+    /**
+     * Displays the stored messages sub-menu and handles all six sub-options.
+     * Each option delegates to the appropriate method in Message.java.
+     * Keeps looping until the user chooses to return to the main menu.
+     *
+     * @param input the shared Scanner instance from main()
+     */
+    private static void storedMessagesMenu(Scanner input) {
+        Message helper = new Message(0); // Helper instance to call instance methods
+
+        while (true) {
+            System.out.println("\n======================================");
+            System.out.println("         STORED MESSAGES MENU");
+            System.out.println("======================================");
+            System.out.println("a) Display all stored messages");
+            System.out.println("b) Display the longest stored message");
+            System.out.println("c) Search for a message by ID");
+            System.out.println("d) Search all messages for a recipient");
+            System.out.println("e) Delete a message using its hash");
+            System.out.println("f) Display full message report");
+            System.out.println("g) Return to main menu");
+            System.out.print("Enter your choice: ");
+            String choice = input.nextLine().trim().toLowerCase();
+
+            switch (choice) {
+
+                case "a":
+                    // Display sender and recipient of all stored messages
+                    if (Message.getStoredMessages().isEmpty()) {
+                        System.out.println("No stored messages found.");
+                    } else {
+                        System.out.println("\n--- ALL STORED MESSAGES ---");
+                        for (int i = 0; i < Message.getStoredMessages().size(); i++) {
+                            System.out.println((i + 1) + ". " + Message.getStoredMessages().get(i));
+                        }
+                    }
+                    break;
+
+                case "b":
+                    // Find and print the longest stored message
+                    System.out.println("\nLongest message:");
+                    System.out.println(helper.displayLongestMessage());
+                    break;
+
+                case "c":
+                    // Search for a message by its unique ID
+                    System.out.print("Enter message ID to search: ");
+                    String searchID = input.nextLine().trim();
+                    System.out.println(helper.searchByMessageID(searchID));
+                    break;
+
+                case "d":
+                    // Search for all messages sent to a given recipient
+                    System.out.print("Enter recipient number to search: ");
+                    String searchRecipient = input.nextLine().trim();
+                    System.out.println(helper.searchByRecipient(searchRecipient));
+                    break;
+
+                case "e":
+                    // Delete a message by entering its hash
+                    System.out.print("Enter message hash to delete: ");
+                    String deleteHash = input.nextLine().trim();
+                    System.out.println(helper.deleteByHash(deleteHash));
+                    break;
+
+                case "f":
+                    // Display the full formatted report of all sent messages
+                    System.out.println(Message.printMessages());
+                    break;
+
+                case "g":
+                    // Return to the main menu
+                    return;
+
+                default:
+                    System.out.println("Invalid option. Please enter a, b, c, d, e, f, or g.");
             }
         }
     }
