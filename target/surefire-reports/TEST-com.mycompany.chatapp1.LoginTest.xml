@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.chatapp1.LoginTest" time="0.025" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" name="com.mycompany.chatapp1.LoginTest" time="0.079" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin"/>
-    <property name="sun.java.command" value="C:\Users\Student\AppData\Local\Temp\surefire8028747884553033528\surefirebooter8607553673348088864.jar C:\Users\Student\AppData\Local\Temp\surefire8028747884553033528 2026-06-11T18-08-14_869-jvmRun1 surefire14543630064428655934tmp surefire_05218195533824321730tmp"/>
+    <property name="sun.java.command" value="C:\Users\Student\AppData\Local\Temp\surefire14894688421463140552\surefirebooter10549448461026183058.jar C:\Users\Student\AppData\Local\Temp\surefire14894688421463140552 2026-06-11T18-29-13_448-jvmRun1 surefire1387733753940908302tmp surefire_03107196977916943560tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\test-classes;C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\classes;C:\Users\Student\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Student\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Student\.m2\repository\org\json\json\20231013\json-20231013.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Student\AppData\Local\Temp\surefire8028747884553033528\surefirebooter8607553673348088864.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Student\AppData\Local\Temp\surefire14894688421463140552\surefirebooter10549448461026183058.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="25.0.1+8-LTS"/>
@@ -66,7 +66,7 @@
   <testcase name="testLoginSuccess" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
   <testcase name="testLoginFail" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
   <testcase name="testInvalidPassword" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
-  <testcase name="testValidPhoneNumber" classname="com.mycompany.chatapp1.LoginTest" time="0.001"/>
+  <testcase name="testValidPhoneNumber" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
   <testcase name="testInvalidPhoneNumber" classname="com.mycompany.chatapp1.LoginTest" time="0"/>
   <testcase name="testValidUsername" classname="com.mycompany.chatapp1.LoginTest" time="0.001"/>
 </testsuite>

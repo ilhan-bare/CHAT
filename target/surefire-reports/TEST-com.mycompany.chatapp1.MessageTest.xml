@@ -15,7 +15,7 @@
     <property name="user.country" value="US"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Apache NetBeans\jdk\bin"/>
-    <property name="sun.java.command" value="C:\Users\Student\AppData\Local\Temp\surefire8028747884553033528\surefirebooter8607553673348088864.jar C:\Users\Student\AppData\Local\Temp\surefire8028747884553033528 2026-06-11T18-08-14_869-jvmRun1 surefire14543630064428655934tmp surefire_05218195533824321730tmp"/>
+    <property name="sun.java.command" value="C:\Users\Student\AppData\Local\Temp\surefire14894688421463140552\surefirebooter10549448461026183058.jar C:\Users\Student\AppData\Local\Temp\surefire14894688421463140552 2026-06-11T18-29-13_448-jvmRun1 surefire1387733753940908302tmp surefire_03107196977916943560tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\test-classes;C:\Users\Student\Documents\NetBeansProjects\chatapp1\target\classes;C:\Users\Student\.m2\repository\junit\junit\4.13.2\junit-4.13.2.jar;C:\Users\Student\.m2\repository\org\hamcrest\hamcrest-core\1.3\hamcrest-core-1.3.jar;C:\Users\Student\.m2\repository\org\json\json\20231013\json-20231013.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\Student\AppData\Local\Temp\surefire8028747884553033528\surefirebooter8607553673348088864.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\Student\AppData\Local\Temp\surefire14894688421463140552\surefirebooter10549448461026183058.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="25.0.1+8-LTS"/>
@@ -62,23 +62,23 @@
     <property name="java.class.version" value="69.0"/>
   </properties>
   <testcase name="testCheckMessageID_generatedID_isExactly10Chars" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
-  <testcase name="testDisplayReport_containsRequiredFields" classname="com.mycompany.chatapp1.MessageTest" time="0.005"/>
-  <testcase name="testCheckRecipientCell_validNumber_returnsSuccess" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
+  <testcase name="testDisplayReport_containsRequiredFields" classname="com.mycompany.chatapp1.MessageTest" time="0.003"/>
+  <testcase name="testCheckRecipientCell_validNumber_returnsSuccess" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
   <testcase name="testCreateMessageHash_multipleMessages_loopTest" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
-  <testcase name="testCheckMessageLength_over250chars_returnsFailureWithCount" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
+  <testcase name="testCheckMessageLength_over250chars_returnsFailureWithCount" classname="com.mycompany.chatapp1.MessageTest" time="0.002"/>
   <testcase name="testSentMessagesArray_correctlyPopulated" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
   <testcase name="testCheckMessageLength_validMessage_returnsSuccess" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
-  <testcase name="testDeleteByHash_removesCorrectMessage" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
+  <testcase name="testDeleteByHash_removesCorrectMessage" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
   <testcase name="testSearchByMessageID_returnsCorrectMessage" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
   <testcase name="testCheckRecipientCell_invalidNumber_returnsFailure" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
   <testcase name="testCreateMessageHash_isUppercase" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
   <testcase name="testSentMessage_userSelectsDisregard_returnsCorrectString" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
-  <testcase name="testSearchByRecipient_returnsAllMatchingMessages" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
+  <testcase name="testSearchByRecipient_returnsAllMatchingMessages" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
   <testcase name="testCheckMessageID_generatedID_isNotNull" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
   <testcase name="testCheckMessageLength_exactlyAtLimit_returnsSuccess" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
-  <testcase name="testSentMessage_userSelectsSend_returnsCorrectString" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
-  <testcase name="testDisplayLongestMessage_returnsCorrectMessage" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
+  <testcase name="testSentMessage_userSelectsSend_returnsCorrectString" classname="com.mycompany.chatapp1.MessageTest" time="0.002"/>
+  <testcase name="testDisplayLongestMessage_returnsCorrectMessage" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
   <testcase name="testCreateMessageHash_correctFormat_endsWithExpectedWords" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
-  <testcase name="testSentMessage_userSelectsStore_returnsCorrectString" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
-  <testcase name="testCheckMessageLength_oneOver_returnsFailureWithCountOf1" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
+  <testcase name="testSentMessage_userSelectsStore_returnsCorrectString" classname="com.mycompany.chatapp1.MessageTest" time="0"/>
+  <testcase name="testCheckMessageLength_oneOver_returnsFailureWithCountOf1" classname="com.mycompany.chatapp1.MessageTest" time="0.001"/>
 </testsuite>

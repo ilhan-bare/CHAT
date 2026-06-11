@@ -183,7 +183,7 @@ public class MainApp {
                     return;
 
                 case "4":
-                    // Launch the stored messages sub-menu
+                    // Open stored messages menu for option 4
                     storedMessagesMenu(input);
                     break;
 
