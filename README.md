@@ -18,4 +18,4 @@ https://youtu.be/xYvH8fvp-1U
 - All tests should be green
 
 ## YouTube
-[Video link here]
+[https://youtu.be/zv7c3n2FflU?si=nsZNzfoD8ApxrLNm]
